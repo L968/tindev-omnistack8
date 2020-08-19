@@ -9,27 +9,22 @@ module.exports = {
         let loggedDev, targetDev;
 
         if (!userId) {
-            return res.status(400).json({ message: 'User id required' });
+            return res.status(400).json({ message: '`userid` header required' });
         }
 
         if (!devId) {
-            return res.status(400).json({ message: 'Dev id required' });
+            return res.status(400).json({ message: '`devId` param required' });
         }
 
         try {
             loggedDev = await Dev.findById(userId);
-
-            if (!loggedDev) throw Error;
-        } catch (error) {
-            return res.status(400).json({ message: `The user id ${userId} doesn't exists` });
-        }
-
-        try {
             targetDev = await Dev.findById(devId);
 
-            if (!targetDev) throw Error;
+            if (!loggedDev || !targetDev) {
+                throw Error;
+            }
         } catch (error) {
-            return res.status(400).json({ message: `The target dev id ${devId} doesn't exists` });
+            return res.status(400).json({ message: `The id doesn't exists` });
         }
 
         if (loggedDev.likes.includes(targetDev._id)) {
@@ -40,10 +35,10 @@ module.exports = {
             return res.status(409).json({ message: 'You already disliked this dev' });
         }
 
-        req.app.locals.loggedDev = loggedDev;
-        req.app.locals.targetDev = targetDev;
+        req.loggedDev = loggedDev;
+        req.targetDev = targetDev;
 
-        next();
+        return next();
     },
 
 }
