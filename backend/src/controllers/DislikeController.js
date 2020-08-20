@@ -1,7 +1,7 @@
 module.exports = {
 
     async create(req, res) {
-        const { loggedDev, targetDev } = req.app.locals;
+        const { loggedDev, targetDev } = req;
 
         loggedDev.dislikes.push(targetDev._id);
 
