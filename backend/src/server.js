@@ -8,7 +8,7 @@ const routes = require('./routes');
 
 const app = express();
 
-mongoose.connect('mongodb+srv://admin:admin@draco.nxvti.mongodb.net/omnistack8?retryWrites=true&w=majority', {
+mongoose.connect(process.env.CONNECTION, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
