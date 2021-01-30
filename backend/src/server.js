@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const requireDir = require('require-dir');
 requireDir('./models');
 const routes = require('./routes');
+require('dotenv').config()
 
 const app = express();
 
@@ -41,4 +42,4 @@ app.use(cors());
 app.use(express.json());
 app.use(routes);
 
-server.listen(3000);
+server.listen(process.env.PORT || 3333);
